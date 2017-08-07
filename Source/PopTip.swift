@@ -11,6 +11,8 @@ import UIKit
 /// Enum that specifies the direction of the poptip
 @objc
 public enum PopTipDirection : Int {
+  /// None, the poptip will appear above the element with no arrow
+  case none
   /// Up, the poptip will appear above the element, arrow pointing down
   case up
   /// Down, the poptip will appear below the element, arrow pointing up
@@ -19,8 +21,6 @@ public enum PopTipDirection : Int {
   case left
   /// Right, the poptip will appear on the right of the element, arrow pointing left
   case right
-  /// None, the poptip will appear above the element with no arrow
-  case none
 }
 
 /** Enum that specifies the type of entrance animation. Entrance animations are performed while showing the poptip.
@@ -33,6 +33,8 @@ public enum PopTipDirection : Int {
  */
 @objc
 public enum PopTipEntranceAnimation : Int {
+  /// No Animation
+  case none
   /// The poptip scales from 0% to 100%
   case scale
   /// The poptip moves in position from the edge of the screen
@@ -41,8 +43,6 @@ public enum PopTipEntranceAnimation : Int {
   case fadeIn
   /// The Animation is provided by the user
   case custom
-  /// No Animation
-  case none
 }
 
 /** Enum that specifies the type of entrance animation. Entrance animations are performed while showing the poptip.
@@ -54,14 +54,14 @@ public enum PopTipEntranceAnimation : Int {
  */
 @objc
 public enum PopTipExitAnimation : Int {
+  /// No Animation
+  case none
   /// The poptip scales from 100% to 0%
   case scale
   /// The poptip fades out
   case fadeOut
   /// The Animation is provided by the user
   case custom
-  /// No Animation
-  case none
 }
 
 /** Enum that specifies the type of action animation. Action animations are performed after the poptip is visible and the entrance animation completed.
