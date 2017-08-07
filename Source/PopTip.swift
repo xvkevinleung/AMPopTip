@@ -9,7 +9,8 @@
 import UIKit
 
 /// Enum that specifies the direction of the poptip
-public enum PopTipDirection {
+@objc
+public enum PopTipDirection : Int {
   /// Up, the poptip will appear above the element, arrow pointing down
   case up
   /// Down, the poptip will appear below the element, arrow pointing up
@@ -30,7 +31,8 @@ public enum PopTipDirection {
  - `custom`: The Animation is provided by the user
  - `none`: No Animation
  */
-public enum PopTipEntranceAnimation {
+@objc
+public enum PopTipEntranceAnimation : Int {
   /// The poptip scales from 0% to 100%
   case scale
   /// The poptip moves in position from the edge of the screen
@@ -50,7 +52,8 @@ public enum PopTipEntranceAnimation {
  - `custom`: The Animation is provided by the user
  - `none`: No Animation
  */
-public enum PopTipExitAnimation {
+@objc
+public enum PopTipExitAnimation : Int {
   /// The poptip scales from 100% to 0%
   case scale
   /// The poptip fades out
@@ -68,22 +71,22 @@ public enum PopTipExitAnimation {
  - `pulse(offset: CGFloat?)`: The poptip pulsates by changing its size. The maximum amount of pulse increase can be provided optionally
  - `none`: No animation
  */
-public enum PopTipActionAnimation {
-  /// The poptip bounces following its direction. The bounce offset can be provided optionally
-  case bounce(CGFloat?)
-  /// The poptip floats in place. The float offset can be provided optionally. Defaults to 8 points
-  case float(CGFloat?)
-  /// The poptip pulsates by changing its size. The maximum amount of pulse increase can be provided optionally. Defaults to 1.1 (110% of the original size)
-  case pulse(CGFloat?)
-  /// No animation
-  case none
-}
+//@objc
+//public enum PopTipActionAnimation {
+//  /// The poptip bounces following its direction. The bounce offset can be provided optionally
+//  case bounce(CGFloat?)
+//  /// The poptip floats in place. The float offset can be provided optionally. Defaults to 8 points
+//  case float(CGFloat?)
+//  /// The poptip pulsates by changing its size. The maximum amount of pulse increase can be provided optionally. Defaults to 1.1 (110% of the original size)
+//  case pulse(CGFloat?)
+//  /// No animation
+//  case none
+//}
 
 private let DefaultBounceOffset = CGFloat(8)
 private let DefaultFloatOffset = CGFloat(8)
 private let DefaultPulseOffset = CGFloat(1.1)
 
-@objc
 open class PopTip: UIView {
   /// The text displayed by the poptip. Can be updated once the poptip is visible
   open var text: String? {
@@ -128,8 +131,14 @@ open class PopTip: UIView {
   open var entranceAnimation = PopTipEntranceAnimation.scale
   /// Holds the enum with the type of exit animation (triggered once the poptip is dismissed)
   open var exitAnimation = PopTipExitAnimation.scale
-  /// Holds the enum with the type of action animation (triggered once the poptip is shown)
-  open var actionAnimation = PopTipActionAnimation.none
+//  /// Holds the enum with the type of action animation (triggered once the poptip is shown)
+//  open var actionAnimation = PopTipActionAnimation.none
+  open var bounceAnimationOffset = CGFloat(0)
+  open var floatAnimationOffset = CGFloat(0)
+  open var pulseAnimationOffset = CGFloat(0)
+
+  open var actionAnimationEnabled = false
+
   /// Holds the NSTimeInterval with the duration of the action animation
   @objc open dynamic var actionAnimationIn: TimeInterval = 1.2
   /// Holds the NSTimeInterval with the duration of the action stop animation
@@ -493,7 +502,7 @@ open class PopTip: UIView {
   ///   - view: The view that will hold the poptip as a subview.
   ///   - frame: The originating frame. The poptip's arrow will point to the center of this frame.
   ///   - duration: Optional time interval that determines when the poptip will self-dismiss.
-  @objc open func show(text: String, direction: PopTipDirection, maxWidth: CGFloat, in view: UIView, from frame: CGRect, duration: TimeInterval) {
+  open func show(text: String, direction: PopTipDirection, maxWidth: CGFloat, in view: UIView, from frame: CGRect, duration: TimeInterval = 0) {
     resetView()
     
     attributedText = nil
@@ -518,7 +527,7 @@ open class PopTip: UIView {
   ///   - view: The view that will hold the poptip as a subview.
   ///   - frame: The originating frame. The poptip's arrow will point to the center of this frame.
   ///   - duration: Optional time interval that determines when the poptip will self-dismiss.
-  open func show(attributedText: NSAttributedString, direction: PopTipDirection, maxWidth: CGFloat, in view: UIView, from frame: CGRect, duration: TimeInterval) {
+  open func show(attributedText: NSAttributedString, direction: PopTipDirection, maxWidth: CGFloat, in view: UIView, from frame: CGRect, duration: TimeInterval = 0) {
     resetView()
     
     text = nil
@@ -543,7 +552,7 @@ open class PopTip: UIView {
   ///   - view: The view that will hold the poptip as a subview.
   ///   - frame: The originating frame. The poptip's arrow will point to the center of this frame.
   ///   - duration: Optional time interval that determines when the poptip will self-dismiss.
-  open func show(customView: UIView, direction: PopTipDirection, in view: UIView, from frame: CGRect, duration: TimeInterval) {
+  open func show(customView: UIView, direction: PopTipDirection, in view: UIView, from frame: CGRect, duration: TimeInterval = 0) {
     resetView()
     
     text = nil
@@ -708,16 +717,17 @@ open class PopTip: UIView {
   }
   
   fileprivate func performActionAnimation() {
-    switch actionAnimation {
-    case .bounce(let offset):
-      shouldBounce = true
-      bounceAnimation(offset: offset ?? DefaultBounceOffset)
-    case .float(let offset):
-      floatAnimation(offset: offset ?? DefaultFloatOffset)
-    case .pulse(let offset):
-      pulseAnimation(offset: offset ?? DefaultPulseOffset)
-    case .none:
+    if !actionAnimationEnabled {
       return
+    }
+
+    if (bounceAnimationOffset > 0) {
+      shouldBounce = true
+      bounceAnimation(offset: bounceAnimationOffset)
+    } else if (floatAnimationOffset > 0) {
+      floatAnimation(offset: floatAnimationOffset)
+    } else if (pulseAnimationOffset > 0) {
+      pulseAnimation(offset: pulseAnimationOffset)
     }
   }
   

@@ -34,7 +34,8 @@ class ViewController: UIViewController {
     popTip.bubbleOffset = 0
     popTip.edgeInsets = UIEdgeInsetsMake(0, 10, 0, 10)
 
-    popTip.actionAnimation = .bounce(8)
+    popTip.actionAnimationEnabled = true;
+    popTip.bounceAnimationOffset = 8;
 
     popTip.tapHandler = { _ in
       print("tap")
