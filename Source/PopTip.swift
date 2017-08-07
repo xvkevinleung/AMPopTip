@@ -83,6 +83,7 @@ private let DefaultBounceOffset = CGFloat(8)
 private let DefaultFloatOffset = CGFloat(8)
 private let DefaultPulseOffset = CGFloat(1.1)
 
+@objc
 open class PopTip: UIView {
   /// The text displayed by the poptip. Can be updated once the poptip is visible
   open var text: String? {
@@ -492,7 +493,7 @@ open class PopTip: UIView {
   ///   - view: The view that will hold the poptip as a subview.
   ///   - frame: The originating frame. The poptip's arrow will point to the center of this frame.
   ///   - duration: Optional time interval that determines when the poptip will self-dismiss.
-  open func show(text: String, direction: PopTipDirection, maxWidth: CGFloat, in view: UIView, from frame: CGRect, duration: TimeInterval) {
+  @objc open func show(text: String, direction: PopTipDirection, maxWidth: CGFloat, in view: UIView, from frame: CGRect, duration: TimeInterval) {
     resetView()
     
     attributedText = nil
