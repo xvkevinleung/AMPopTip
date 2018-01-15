@@ -156,7 +156,7 @@ open class PopTip: UIView {
   /// Flag to enable or disable background mask
   @objc open dynamic var shouldShowMask = false
   /// Holds the CGrect with the rect the tip is pointing to
-  open var from = CGRect.zero {
+  @objc open var from = CGRect.zero {
     didSet {
       setup()
     }
