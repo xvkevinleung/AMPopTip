@@ -552,7 +552,7 @@ open class PopTip: UIView {
   ///   - view: The view that will hold the poptip as a subview.
   ///   - frame: The originating frame. The poptip's arrow will point to the center of this frame.
   ///   - duration: Optional time interval that determines when the poptip will self-dismiss.
-  open func show(customView: UIView, direction: PopTipDirection, in view: UIView, from frame: CGRect, duration: TimeInterval = 0) {
+  @objc open func show(customView: UIView, direction: PopTipDirection, in view: UIView, from frame: CGRect, duration: TimeInterval = 0) {
     resetView()
     
     text = nil
