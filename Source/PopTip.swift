@@ -750,15 +750,6 @@ open class PopTip: UIView {
     case .none:
       return
     }
-
-    if (bounceAnimationOffset > 0) {
-      shouldBounce = true
-      bounceAnimation(offset: bounceAnimationOffset)
-    } else if (floatAnimationOffset > 0) {
-      floatAnimation(offset: floatAnimationOffset)
-    } else if (pulseAnimationOffset > 0) {
-      pulseAnimation(offset: pulseAnimationOffset)
-    }
   }
   
   fileprivate func dismissActionAnimation(_ completion: (() -> Void)? = nil) {
