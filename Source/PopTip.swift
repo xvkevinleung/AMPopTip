@@ -88,14 +88,14 @@ private let DefaultPulseOffset = CGFloat(1.1)
 
 open class PopTip: UIView {
   /// The text displayed by the poptip. Can be updated once the poptip is visible
-  open var text: String? {
+  @objc open var text: String? {
     didSet {
       accessibilityLabel = text
       setNeedsLayout()
     }
   }
   /// The `UIFont` used in the poptip's text
-  open var font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
+  @objc open var font = UIFont.systemFont(ofSize: UIFont.systemFontSize)
   /// The `UIColor` of the text
   @objc open dynamic var textColor = UIColor.white
   /// The `NSTextAlignment` of the text
@@ -137,16 +137,16 @@ open class PopTip: UIView {
   /// Holds the NSTimeInterval with the delay of the disappearing animation
   @objc open dynamic var delayOut: TimeInterval = 0
   /// Holds the enum with the type of entrance animation (triggered once the poptip is shown)
-  open var entranceAnimation = PopTipEntranceAnimation.scale
+  @objc open var entranceAnimation = PopTipEntranceAnimation.scale
   /// Holds the enum with the type of exit animation (triggered once the poptip is dismissed)
-  open var exitAnimation = PopTipExitAnimation.scale
+  @objc open var exitAnimation = PopTipExitAnimation.scale
   /// Holds the enum with the type of action animation (triggered once the poptip is shown)
   open var actionAnimation = PopTipActionAnimation.none
-  open var bounceAnimationOffset = CGFloat(0)
-  open var floatAnimationOffset = CGFloat(0)
-  open var pulseAnimationOffset = CGFloat(0)
+  @objc open var bounceAnimationOffset = CGFloat(0)
+  @objc open var floatAnimationOffset = CGFloat(0)
+  @objc open var pulseAnimationOffset = CGFloat(0)
 
-  open var actionAnimationEnabled = false
+  @objc open var actionAnimationEnabled = false
 
   /// Holds the NSTimeInterval with the duration of the action animation
   @objc open dynamic var actionAnimationIn: TimeInterval = 1.2
@@ -172,7 +172,7 @@ open class PopTip: UIView {
   }
   /// Holds the readonly BOOL with the poptip visiblity. The poptip is considered visible as soon as
   /// the animation is complete, and invisible when the subview is removed from its parent.
-  open var isVisible: Bool { get { return self.superview != nil } }
+  @objc open var isVisible: Bool { get { return self.superview != nil } }
   /// A boolean value that determines whether the poptip is dismissed on tap.
   @objc open dynamic var shouldDismissOnTap = true
   /// A boolean value that determines whether to dismiss when tapping outside the poptip.
@@ -183,43 +183,43 @@ open class PopTip: UIView {
   @objc open dynamic var startActionAnimationOnShow = true
   /// A direction that determines what swipe direction to dismiss when swiping outside the poptip.
   /// The default direction is `right`
-  open var swipeRemoveGestureDirection = UISwipeGestureRecognizer.Direction.right {
+  @objc open var swipeRemoveGestureDirection = UISwipeGestureRecognizer.Direction.right {
     didSet {
       swipeGestureRecognizer?.direction = swipeRemoveGestureDirection
     }
   }
   /// A block that will be fired when the user taps the poptip.
-  open var tapHandler: ((PopTip) -> Void)?
+  @objc open var tapHandler: ((PopTip) -> Void)?
   /// A block that will be fired when the user taps outside the poptip.
-  open var tapOutsideHandler: ((PopTip) -> Void)?
+  @objc open var tapOutsideHandler: ((PopTip) -> Void)?
   /// A block that will be fired when the user swipes outside the poptip.
-  open var swipeOutsideHandler: ((PopTip) -> Void)?
+  @objc open var swipeOutsideHandler: ((PopTip) -> Void)?
   /// A block that will be fired when the poptip appears.
-  open var appearHandler: ((PopTip) -> Void)?
+  @objc open var appearHandler: ((PopTip) -> Void)?
   /// A block that will be fired when the poptip is dismissed.
-  open var dismissHandler: ((PopTip) -> Void)?
+  @objc open var dismissHandler: ((PopTip) -> Void)?
   /// A block that handles the entrance animation of the poptip. Should be provided
   /// when using a `PopTipActionAnimationCustom` entrance animation type.
   /// Please note that the poptip will be automatically added as a subview before firing the block
   /// Remember to call the completion block provided
-  open var entranceAnimationHandler: ((@escaping () -> Void) -> Void)?
+  @objc open var entranceAnimationHandler: ((@escaping () -> Void) -> Void)?
   /// A block block that handles the exit animation of the poptip. Should be provided
   /// when using a `AMPopTipActionAnimationCustom` exit animation type.
   /// Remember to call the completion block provided
-  open var exitAnimationHandler: ((@escaping () -> Void) -> Void)?
+  @objc open var exitAnimationHandler: ((@escaping () -> Void) -> Void)?
   /// The CGPoint originating the arrow. Read only.
-  open private(set) var arrowPosition = CGPoint.zero
+  @objc open private(set) var arrowPosition = CGPoint.zero
   /// A read only reference to the view containing the poptip
-  open private(set) weak var containerView: UIView?
+  @objc open private(set) weak var containerView: UIView?
   /// The direction from which the poptip is shown. Read only.
-  open private(set) var direction = PopTipDirection.none
+  @objc open private(set) var direction = PopTipDirection.none
   /// Holds the readonly BOOL with the poptip animation state.
-  open private(set) var isAnimating: Bool = false
+  @objc open private(set) var isAnimating: Bool = false
   /// The view that dims the background (including the button that triggered PopTip.
   /// The mask by appears with fade in effect only.
-  open private(set) var backgroundMask: UIView?
+  @objc open private(set) var backgroundMask: UIView?
   /// The tap gesture recognizer. Read-only.
-  open private(set) var tapGestureRecognizer: UITapGestureRecognizer?
+  @objc open private(set) var tapGestureRecognizer: UITapGestureRecognizer?
   fileprivate var attributedText: NSAttributedString?
   fileprivate var paragraphStyle = NSMutableParagraphStyle()
   fileprivate var tapRemoveGestureRecognizer: UITapGestureRecognizer?
@@ -594,7 +594,7 @@ open class PopTip: UIView {
   /// Update the current text
   ///
   /// - Parameter text: the new text
-  open func update(text: String) {
+  @objc open func update(text: String) {
     self.text = text
     updateBubble()
   }
@@ -602,7 +602,7 @@ open class PopTip: UIView {
   /// Update the current text
   ///
   /// - Parameter attributedText: the new attributs string
-  open func update(attributedText: NSAttributedString) {
+  @objc open func update(attributedText: NSAttributedString) {
     self.attributedText = attributedText
     updateBubble()
   }
@@ -610,7 +610,7 @@ open class PopTip: UIView {
   /// Update the current text
   ///
   /// - Parameter customView: the new custom view
-  open func update(customView: UIView) {
+  @objc open func update(customView: UIView) {
     self.customView = customView
     updateBubble()
   }
